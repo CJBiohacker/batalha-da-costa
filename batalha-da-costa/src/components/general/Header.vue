@@ -12,6 +12,9 @@ const links = [
 
 <template>
     <header id="header-container">
+        <figure>
+            <img src="@/assets/BDC-logo.svg" alt="Logo" width="100" />
+        </figure>
         <router-link v-for="link in links" :to="link.path" class="header__link">
             {{ link.text }}
         </router-link>
@@ -25,14 +28,13 @@ const links = [
     gap: 1rem;
     align-items: center;
     padding: 1rem;
-    background-color: #333;
     color: white;
 
-    &.header__link {
-        color: white;
+    .header__link {
         text-decoration: none;
+        font-size: 1.2rem;
 
-        &:hover {
+        :hover {
             cursor: pointer;
         }
     }
