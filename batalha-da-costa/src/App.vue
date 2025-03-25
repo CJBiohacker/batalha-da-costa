@@ -1,21 +1,14 @@
 <script setup>
+import Header from '@/components/general/Header.vue';
+import Footer from '@/components/general/Footer.vue';
+
 </script>
 
 <template>
-  <header>
-    <router-link v-for="link in links" :to="link.to">
-      {{ link.text }}
-    "></router-link>
-  </header>
+  <Header />
 
   <router-view>
-    
   </router-view>
 
-  <footer>
-  </footer>
+  <Footer />
 </template>
-
-<style scoped>
-
-</style>
