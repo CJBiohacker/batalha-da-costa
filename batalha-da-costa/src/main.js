@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 
 import App from "@/App.vue";
-import "@/style.css";
+import "@/assets/fonts/fonts.css";
 
 library.add(faInstagram, faTiktok, faFacebook, faLinkedin);
 
