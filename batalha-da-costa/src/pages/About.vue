@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 
 const aboutData = ref({
   welcomeImage: "/src/assets/images/BDC-logo.svg",
@@ -72,6 +72,10 @@ onMounted(() => {
 
   handleResize(); // Initial check
   window.addEventListener("resize", handleResize);
+
+  onBeforeUnmount(() => {
+    window.removeEventListener("resize", handleResize);
+  });
 });
 </script>
 
@@ -103,97 +107,102 @@ onMounted(() => {
 
     <div class="row">
       <div class="col-12">
-        <select v-model="selectedItem" class="item-selector">
-          <option
-            v-for="item in aboutData.selectableItems"
-            :key="item.value"
-            :value="item.value"
-            :selected="item.value === 'rap-battle'"
-          >
-            {{ item.label }}
-          </option>
-        </select>
+        <v-select
+          v-model="selectedItem"
+          :items="aboutData.selectableItems"
+          item-title="label"
+          item-value="value"
+          class="item-selector"
+          :menu-props="{ offsetY: true }"
+          variant="outlined"
+          bg-color="white"
+          base-color="white"
+        ></v-select>
       </div>
     </div>
 
-    <div v-if="selectedItem === 'locations'" class="row item-details">
-      <div class="col-4">
-        <iframe
-          v-if="selectedItemData && selectedItemData.iframeSrc"
-          :src="selectedItemData.iframeSrc"
-          class="item-iframe"
-          allowfullscreen="true"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          title="Location Map"
-        ></iframe>
-        <img
-          v-else-if="selectedItemData && selectedItemData.image"
-          :src="selectedItemData.image"
-          :alt="selectedItemData.imageAlt"
-          class="item-image"
-        />
-        <div v-else class="item-placeholder">No location media available.</div>
-      </div>
-      <div
-        :class="{
-          'col-8': selectedItem === 'locations',
-          'col-8':
-            selectedItemData &&
-            (selectedItemData.image || selectedItemData.iframeSrc),
-          'col-12':
-            selectedItem !== 'locations' ||
-            !(
+    <transition name="fade" mode="out-in" appear>
+      <div v-if="selectedItem === 'locations'" class="row item-details">
+        <div class="col-4">
+          <iframe
+            v-if="selectedItemData && selectedItemData.iframeSrc"
+            :src="selectedItemData.iframeSrc"
+            class="item-iframe"
+            allowfullscreen="true"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Location Map"
+          ></iframe>
+          <img
+            v-else-if="selectedItemData && selectedItemData.image"
+            :src="selectedItemData.image"
+            :alt="selectedItemData.alt"
+            class="item-image"
+          />
+          <div v-else class="item-placeholder">
+            No location media available.
+          </div>
+        </div>
+        <div
+          :class="{
+            'col-8': selectedItem === 'locations',
+            'col-8':
               selectedItemData &&
-              (selectedItemData.image || selectedItemData.iframeSrc)
-            ),
-        }"
-      >
-        <p
-          class="item-description"
-          v-if="selectedItemData && selectedItemData.description"
+              (selectedItemData.image || selectedItemData.iframeSrc),
+            'col-12':
+              selectedItem !== 'locations' ||
+              !(
+                selectedItemData &&
+                (selectedItemData.image || selectedItemData.iframeSrc)
+              ),
+          }"
         >
-          {{ selectedItemData.description }}
-        </p>
-        <p class="item-description" v-else>
-          {{
-            aboutData.selectableItems.find(
-              (item) => item.value === selectedItem
-            )?.defaultDescription || ""
-          }}
-        </p>
+          <p
+            class="item-description"
+            v-if="selectedItemData && selectedItemData.description"
+          >
+            {{ selectedItemData.description }}
+          </p>
+          <p class="item-description" v-else>
+            {{
+              aboutData.selectableItems.find(
+                (item) => item.value === selectedItem
+              )?.defaultDescription || ""
+            }}
+          </p>
+        </div>
       </div>
-    </div>
 
-    <div v-else-if="selectedItem" class="row item-details">
-      <div v-if="selectedItemData && selectedItemData.image" class="col-4">
-        <img
-          :src="selectedItemData.image"
-          :alt="selectedItemData.alt"
-          class="item-image"
-        />
-      </div>
-      <div
-        :class="{
-          'col-8': selectedItemData && selectedItemData.image,
-          'col-12': !selectedItemData || !selectedItemData.image,
-        }"
-      >
-        <p
-          class="item-description"
-          v-if="selectedItemData && selectedItemData.description"
+      <div v-else-if="selectedItem" class="row item-details">
+        <div v-if="selectedItemData && selectedItemData.image" class="col-4">
+          <img
+            :src="selectedItemData.image"
+            :alt="selectedItemData.alt"
+            class="item-image"
+          />
+        </div>
+        <div
+          :class="{
+            'col-8': selectedItemData && selectedItemData.image,
+            'col-12': !selectedItemData || !selectedItemData.image,
+          }"
         >
-          {{ selectedItemData.description }}
-        </p>
-        <p class="item-description" v-else>
-          {{
-            aboutData.selectableItems.find(
-              (item) => item.value === selectedItem
-            )?.defaultDescription || ""
-          }}
-        </p>
+          <p
+            class="item-description"
+            v-if="selectedItemData && selectedItemData.description"
+          >
+            {{ selectedItemData.description }}
+          </p>
+          <p class="item-description" v-else>
+            {{
+              aboutData.selectableItems.find(
+                (item) => item.value === selectedItem
+              )?.defaultDescription || ""
+            }}
+          </p>
+        </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -241,12 +250,10 @@ onMounted(() => {
   }
 
   .item-selector {
-    width: 100%;
-    padding: 10px;
+    width: 250px;
     margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
+
+    // You can further style the v-select here if needed
   }
 
   .item-details {
@@ -267,7 +274,6 @@ onMounted(() => {
       }
 
       .item-placeholder {
-        // Style for the placeholder when no image/iframe
         padding: 15px;
         text-align: center;
         border: 1px dashed #ccc;
@@ -340,6 +346,7 @@ onMounted(() => {
 
     .item-selector {
       font-size: 1.1rem;
+      width: 75dvw;
     }
   }
 }
