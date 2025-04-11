@@ -37,7 +37,7 @@ const rankingData = ref({
 <template>
     <section id="ranking-container">
         <div class="ranking__title">
-            <h1>Ranking Batalha da Costa</h1>
+            <h1>Ranking - Batalha da Costa</h1>
             <hr>
             <p>{{ `${rankingData.temporada.periodo}ª Temporada de ${rankingData.temporada.ano}` }}</p>
         </div>
@@ -45,7 +45,7 @@ const rankingData = ref({
         <RankingBoard :participantes="rankingData.participantes" />
 
         <div class="ranking__update-msg">
-
+            <p>Última atualização : {{ rankingData.data_ranking.toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit' }) }}</p>
         </div>
     </section>
 </template>
@@ -55,7 +55,8 @@ const rankingData = ref({
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
+    gap: 35px;
 
     .ranking__title {
         display: flex;
