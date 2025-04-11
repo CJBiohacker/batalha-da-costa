@@ -64,7 +64,6 @@ $text-light: #f1f1f1;
   font-size: 1rem;
   background-color: $header-footer-bg;
   color: $text-light;
-  max-width: 1400px;
   margin: 0 auto;
   width: 100%;
 
