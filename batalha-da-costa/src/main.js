@@ -1,4 +1,5 @@
 import { createApp } from "vue";
+import { createVuetify } from "vuetify";
 import { router } from "@/router/index";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -8,13 +9,23 @@ import {
   faFacebook,
   faLinkedin,
 } from "@fortawesome/free-brands-svg-icons";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import * as components from "vuetify/components";
+import * as directives from "vuetify/directives";
 
 import App from "@/App.vue";
 import "@/assets/fonts/fonts.css";
+import "vuetify/styles";
 
-library.add(faInstagram, faTiktok, faFacebook, faLinkedin);
+const vuetify = createVuetify({
+  components,
+  directives,
+});
+
+library.add(faInstagram, faTiktok, faFacebook, faLinkedin, faArrowLeft, faArrowRight);
 
 createApp(App)
   .component("font-awesome-icon", FontAwesomeIcon)
   .use(router)
+  .use(vuetify)
   .mount("#app");
