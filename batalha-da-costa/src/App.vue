@@ -47,7 +47,7 @@ body {
 
 main {
   padding: 2rem 1rem;
-  width: 100%;
+  width: 100dvw;
   max-width: 1400px;
   margin: 0 auto;
   align-self: center;
