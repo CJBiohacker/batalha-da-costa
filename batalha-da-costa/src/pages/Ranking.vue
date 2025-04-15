@@ -1,43 +1,16 @@
 <script setup>
 import { ref } from 'vue';
+import { mockRankingData } from '../utils/consts';
 import RankingBoard from '@/components/ranking/RankingBoard.vue';
 
-const rankingData = ref({
-    data_ranking: new Date(),
-    participantes: [
-        {
-            nome: "Perigo",
-            pontos: "6",
-            vitoria_2x0: "1",
-        },
-        {
-            nome: "Exodia",
-            pontos: "5",
-            vitoria_2x0: "2",
-        },
-        {
-            nome: "Brancão",
-            pontos: "2",
-            vitoria_2x0: "1",
-        },
-        {
-            nome: "Fuze",
-            pontos: "2",
-            vitoria_2x0: "1",
-        },
-    ],
-    temporada: {
-        ano: "2025",
-        periodo: "2",
-    }
-})
+const rankingData = ref(mockRankingData);
 
 </script>
 
 <template>
     <section id="ranking-container">
         <div class="ranking__title">
-            <h1>Ranking - Batalha da Costa</h1>
+            <h1>Batalha da Costa</h1>
             <hr>
             <p>{{ `${rankingData.temporada.periodo}ª Temporada de ${rankingData.temporada.ano}` }}</p>
         </div>

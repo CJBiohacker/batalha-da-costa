@@ -92,7 +92,7 @@ $text-light: #f1f1f1;
 @media (max-width: 767px) {
   #footer-container {
     flex-direction: column-reverse;
-    height: 115px;
+    min-height: 115px;
     padding: 0.5rem;
     text-align: center;
 

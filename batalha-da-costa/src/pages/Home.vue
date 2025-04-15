@@ -17,7 +17,7 @@ const items = [
 
 <template>
     <section>
-      <v-carousel hide-delimiters show-arrows="hover" omte cycle>
+      <v-carousel hide-delimiters show-arrows="hover" cycle>
         <template v-slot:prev="{ props }">
           <v-btn variant="elevated" @click="props.onClick">
             <font-awesome-icon :icon="['fas', 'arrow-left']" color="dark" />
