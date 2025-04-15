@@ -19,8 +19,12 @@ const eliminatoriasMatches = computed(
 const quartasMatches = computed(
   () => props.bracketData?.chaves_batalha?.quartas_de_final || []
 );
-const semifinaisMatches = computed(() => props.bracketData?.chaves_batalha?.semifinais || []);
-const finalMatch = computed(() => props.bracketData?.chaves_batalha?.final || []);
+const semifinaisMatches = computed(
+  () => props.bracketData?.chaves_batalha?.semifinais || []
+);
+const finalMatch = computed(
+  () => props.bracketData?.chaves_batalha?.final || []
+);
 
 const visibleRounds = computed(() => {
   const numEliminatorias = eliminatoriasMatches.value.length;
@@ -60,27 +64,19 @@ const getRoundMatches = (key) => {
 };
 
 const getRoundSpacingClass = (roundIndex) => {
-  if (roundIndex === 0) return "ga-1 ma-4";
-  if (roundIndex === 1) return "ga-1 ma-8 align-self-center";
-  if (roundIndex === 2) return "ga-1 ma-12 align-self-center";
-  if (roundIndex === 3) return "ga-1 ma-16 align-self-center";
+  if (roundIndex === 0) return "ga-1 ma-4 ml-10";
+  if (roundIndex === 1) return "ma-8 bracket-board__quarters-container";
+  if (roundIndex === 2) return "ma-9 bracket-board__semifinals-container";
+  if (roundIndex === 3) return "ma-10";
   return "ga-1 ma-4";
 };
 
 const getMatchSpacingClass = (roundIndex) => {
   if (roundIndex === 0) return "ga-1 ma-2";
-  if (roundIndex === 1) return "ga-1 ma-4 align-items-center";
-  if (roundIndex === 2) return "ga-1 ma-8 align-items-center";
-  if (roundIndex === 3) return "ga-1 ma-12 align-items-center";
-  return "ga-1 ma-2 align-items-center";
-};
-
-const getBracketColor = (roundIndex) => {
-  if (roundIndex === 0) return "#e91e63";
-  if (roundIndex === 1) return "#3f51b5";
-  if (roundIndex === 2) return "#00897b";
-  if (roundIndex === 3) return "#ffc107";
-  return "primary";
+  if (roundIndex === 1) return "ga-1 ma-4";
+  if (roundIndex === 2) return "ga-1 my-8";
+  if (roundIndex === 3) return "ga-1 my-12";
+  return "ga-1 ma-2";
 };
 
 const getBracketHeight = (roundIndex) => (roundIndex === 3 ? 70 : 35);
@@ -88,14 +84,15 @@ const getBracketWidth = (roundIndex) => (roundIndex === 3 ? 250 : 200);
 </script>
 
 <template>
-  <v-container id="bracket-board" fluid>
-    <div class="d-flex overflow-x-auto">
+  <v-container fluid>
+    <div class="d-flex overflow-x-auto bracket-board">
       <div
         v-for="(round, roundIndex) in visibleRounds"
         :key="roundIndex"
-        :class="`d-flex flex-column ${getRoundSpacingClass(roundIndex)}`"
+        :class="`d-flex flex-column justify-center ${getRoundSpacingClass(
+          roundIndex
+        )}`"
       >
-        <h3>{{ round.label }}</h3>
         <div
           v-for="(match, matchIndex) in getRoundMatches(round.key)"
           :key="matchIndex"
@@ -120,3 +117,15 @@ const getBracketWidth = (roundIndex) => (roundIndex === 3 ? 250 : 200);
     </div>
   </v-container>
 </template>
+
+<style scoped lang="scss">
+.bracket-board {
+  &__quarters-container {
+    gap: 80px !important;
+  }
+
+  &__semifinals-container {
+    gap: 220px !important;
+  }
+}
+</style>
