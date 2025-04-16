@@ -10,7 +10,7 @@ const rankingData = ref(mockRankingData);
 <template>
     <section id="ranking-container">
         <div class="ranking__title">
-            <h1>Batalha da Costa</h1>
+            <h1>Ranking</h1>
             <hr>
             <p>{{ `${rankingData.temporada.periodo}ª Temporada de ${rankingData.temporada.ano}` }}</p>
         </div>

@@ -14,7 +14,7 @@ defineProps({
   },
   mc_name: {
     type: String,
-    default: "MC DELTARUNE",
+    default: "",
   },
   mc_points: {
     type: Number,

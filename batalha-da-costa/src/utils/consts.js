@@ -85,7 +85,7 @@ export const mockTournamentData = {
     ],
   },
   data_edicao: "2023-10-02",
-  num_edicao: "55",
+  num_edicao: "54",
 };
 
 export const mockRankingData = {
@@ -117,3 +117,5 @@ export const mockRankingData = {
     periodo: "2",
   },
 };
+
+export const mockEditions = [ "Edição 55 - 22/04/2023", "Edição 54 - 15/04/2023", "Edição 53 - 08/04/2023" ];

@@ -9,7 +9,7 @@ import {
   faFacebook,
   faLinkedin,
 } from "@fortawesome/free-brands-svg-icons";
-import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faArrowRight, faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
 
@@ -22,7 +22,7 @@ const vuetify = createVuetify({
   directives,
 });
 
-library.add(faInstagram, faTiktok, faFacebook, faLinkedin, faArrowLeft, faArrowRight);
+library.add(faInstagram, faTiktok, faFacebook, faLinkedin, faArrowLeft, faArrowRight, faArrowsRotate);
 
 createApp(App)
   .component("font-awesome-icon", FontAwesomeIcon)
