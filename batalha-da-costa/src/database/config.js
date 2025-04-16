@@ -1,7 +1,7 @@
-import * as admin from "firebase-admin";
-import "dotenv/config";
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 
-const serviceAccount = {
+const firebaseConfig = {
   type: import.meta.env.VITE_FIREBASE_TYPE,
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
   private_key_id: import.meta.env.VITE_FIREBASE_PRIVATE_KEY_ID,
@@ -15,8 +15,6 @@ const serviceAccount = {
   universe_domain: import.meta.env.VITE_FIREBASE_UNIVERSE_DOMAIN,
 };
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+const firebaseApp = initializeApp(firebaseConfig);
 
-export const firebase = admin.firestore();
+export const firestoreDB = getFirestore(firebaseApp);
