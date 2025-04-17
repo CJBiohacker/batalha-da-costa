@@ -1,14 +1,6 @@
 import { firestoreDB } from "../database/config";
-import {
-  doc,
-  collection,
-  getDocs,
-  addDoc,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
 import { extractEditionNumber } from "../utils/helpers";
-import { mockTournamentData } from "../utils/consts";
 
 const battlesCollection = collection(
   firestoreDB,
@@ -49,11 +41,7 @@ export const getBattleEditions = async () => {
 export const getSelectedBattleData = async (battleInfo) => {
   try {
     const editionNumber = extractEditionNumber(battleInfo);
-    console.log("Data type of Edition Number => ", typeof editionNumber);
-    const q = query(
-      battlesCollection,
-      where("num_edicao", "==", editionNumber)
-    );
+    const q = query(battlesCollection);
     const querySnapshot = await getDocs(q);
 
     if (!querySnapshot.empty) {
@@ -69,18 +57,16 @@ export const getSelectedBattleData = async (battleInfo) => {
   }
 };
 
-export const getAllRankings = async () => {
+export const getUpdatedRankingData = async () => {
   try {
-    const querySnapshot = await getDocs(
-      collection(firestoreDB, import.meta.env.VITE_FIREBASE_COLLECTION_2)
-    );
-    const rankings = [];
+    const q = query(rankingsCollection, orderBy("data_ranking", "desc"), limit(1));
+    const querySnapshot = await getDocs(q);
 
-    querySnapshot.forEach((doc) => {
-      rankings.push(doc.data());
-    });
-
-    return rankings;
+    if (!querySnapshot.empty) {
+      return querySnapshot.docs[0].data();
+    } else {
+      return null;
+    }
   } catch (error) {
     console.error("Error fetching rankings: ", error);
     throw new Error("Failed to fetch rankings");

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
+import { ref, onMounted, onBeforeUnmount, computed } from "vue";
 
 const props = defineProps({
   participantes: {
@@ -50,7 +50,7 @@ onBeforeUnmount(() => {
           class="ranking__row"
         >
           <p class="ranking__position">{{ index + 1 }}</p>
-          <p class="ranking__name">{{ participante.nome }}</p>
+          <p class="ranking__name">{{ participante.nome.replace(/ /g, "_")}}</p>
           <p class="ranking__points">{{ participante.pontos }}</p>
           <p class="ranking__wins">{{ participante.vitoria_2x0 }}</p>
         </div>
@@ -64,7 +64,7 @@ onBeforeUnmount(() => {
       >
         <div class="ranking__card-header">
           <span class="ranking__card-position">{{ index + 1 }}</span>
-          <h3 class="ranking__card-name">{{ participante.nome }}</h3>
+          <h3 class="ranking__card-name">{{ participante.nome.replace(/ /g, "_") }}</h3>
         </div>
         <div class="ranking__card-stats">
           <div class="ranking__card-stat">
@@ -92,7 +92,7 @@ onBeforeUnmount(() => {
 
 .ranking {
   font-family: "Scoreboard", system-ui, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 2rem; /* Default font size for larger screens */
+  font-size: 2.5rem; /* Default font size for larger screens */
 }
 
 .ranking__card-style {
@@ -156,24 +156,23 @@ onBeforeUnmount(() => {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 15px;
-  width: 100%; 
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
 
 .ranking__card-header {
   display: flex;
+  gap: 10px;
   align-items: center;
   justify-content: center;
   margin-bottom: 10px;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
 
   .ranking__card-position {
     background-color: #ddd;
     border-radius: 50%;
     padding: 8px 12px;
-
-    margin-right: 10px;
   }
 
   .ranking__card-name {
@@ -191,7 +190,7 @@ onBeforeUnmount(() => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 1.3rem;
+    font-size: 1.7rem;
 
     span {
     }
