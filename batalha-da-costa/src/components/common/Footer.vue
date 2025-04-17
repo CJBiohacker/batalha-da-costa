@@ -6,14 +6,14 @@ const contacts = [
     link: "https://www.instagram.com/batalhadacosta_/",
     icon: ["fab", "instagram"],
   },
-  {
-    link: "https://www.instagram.com/batalhadacosta_/",
-    icon: ["fab", "tiktok"],
-  },
-  {
-    link: "https://www.instagram.com/batalhadacosta_/",
-    icon: ["fab", "facebook"],
-  },
+  // {
+  //   link: "https://www.instagram.com/batalhadacosta_/",
+  //   icon: ["fab", "tiktok"],
+  // },
+  // {
+  //   link: "https://www.instagram.com/batalhadacosta_/",
+  //   icon: ["fab", "facebook"],
+  // },
 ];
 
 const footerText1 = `© ${new Date().getFullYear()} - Desenvolvido por `;
@@ -44,6 +44,7 @@ onBeforeUnmount(() => {
       {{ footerText2 }}
     </div>
     <div class="footer__contact">
+      <p>Siga nas redes sociais:</p>
       <a v-for="contact in contacts" :href="contact.link" target="_blank">
         <font-awesome-icon
           :icon="contact.icon"
@@ -81,6 +82,8 @@ $text-light: #f1f1f1;
 
   .footer__contact {
     display: flex;
+    flex-direction: row;
+    align-items: center;
     gap: 1.5rem;
 
     > a {
