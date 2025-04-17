@@ -1,3 +1,5 @@
+import { images } from "@/assets/images/image-urls";
+
 export const mockTournamentData = {
   chaves_batalha: {
     eliminatorias: [
@@ -118,4 +120,78 @@ export const mockRankingData = {
   },
 };
 
-export const mockEditions = [ "Edição 55 - 22/04/2023", "Edição 54 - 15/04/2023", "Edição 53 - 08/04/2023" ];
+export const mockEditions = [
+  "Edição 55 - 22/04/2023",
+  "Edição 54 - 15/04/2023",
+  "Edição 53 - 08/04/2023",
+];
+
+export const mockCarouselImages = [
+  {
+    src: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg",
+  },
+  {
+    src: "https://cdn.vuetifyjs.com/images/carousel/sky.jpg",
+  },
+  {
+    src: "https://cdn.vuetifyjs.com/images/carousel/bird.jpg",
+  },
+  {
+    src: "https://cdn.vuetifyjs.com/images/carousel/planet.jpg",
+  },
+];
+
+export const aboutContent = {
+  welcomeImage: images.bdc_logo,
+  welcomealt: "Rap Battle Event",
+  welcomeDescription: `Welcome to the electrifying world of [Your Rap Battle Event Name]!
+  Prepare for intense lyrical showdowns, showcasing the raw talent and
+  creative wordplay of MCs from all walks of life. Our event is more
+  than just a competition; it's a vibrant celebration of hip-hop culture,
+  community, and the power of spoken word. Join us as we witness history
+  in the making, one rhyme at a time.`,
+  complementaryDescription: `[Expand on the history, mission, or values of your Rap Battle event here.
+  You might want to include information about past events, the organizers'
+  vision, or how the event contributes to the local community. Highlight
+  what makes your Rap Battle unique and engaging for both participants
+  and spectators.]`,
+  selectableItems: [
+    {
+      value: "rap-battle",
+      label: "Selecione uma opção para saber mais",
+      defaultDescription: "",
+    },
+    {
+      value: "locations",
+      label: "Our Locations",
+      iframeSrc:
+        "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1299.704625985362!2d-43.77763776409856!3d-22.872043054446646!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1spt-PT!2sbr!4v1744397716347!5m2!1spt-PT!2sbr",
+      description: `Explore the diverse and exciting venues that host our Rap Battles.
+      From intimate local spots to larger event spaces, each location brings
+      its own unique atmosphere to the competition. [Provide details about
+      the types of locations you use, their significance, or any interesting
+      facts.]`,
+    },
+    {
+      value: "mcs",
+      label: "Featured MCs",
+      image: images.bdc_logo,
+      alt: "Featured MC",
+      description: `Meet some of the incredibly talented MCs who have graced our stage.
+    These lyrical warriors bring their unique styles, stories, and flows
+    to the battle, captivating audiences with their skill and passion.
+    [You could potentially link to individual MC profiles or provide brief
+    biographies here.]`,
+    },
+    {
+      value: "organizers",
+      label: "The Organizers",
+      image: images.bdc_logo,
+      alt: "Organizer",
+      description: `Behind every successful Rap Battle is a dedicated team of organizers
+    who work tirelessly to bring this event to life. Learn more about the
+    passionate individuals who curate the battles, manage the logistics,
+    and foster the vibrant community surrounding [Your Rap Battle Event Name].`,
+    },
+  ],
+}

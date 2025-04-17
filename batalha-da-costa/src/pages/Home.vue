@@ -1,18 +1,8 @@
 <script setup>
-const items = [
-  {
-    src: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg",
-  },
-  {
-    src: "https://cdn.vuetifyjs.com/images/carousel/sky.jpg",
-  },
-  {
-    src: "https://cdn.vuetifyjs.com/images/carousel/bird.jpg",
-  },
-  {
-    src: "https://cdn.vuetifyjs.com/images/carousel/planet.jpg",
-  },
-];
+import { ref } from 'vue';
+import { mockCarouselImages } from '../utils/consts';
+
+const items = ref(mockCarouselImages);
 </script>
 
 <template>

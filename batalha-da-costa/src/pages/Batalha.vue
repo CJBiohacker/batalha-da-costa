@@ -12,6 +12,7 @@ const bracketData = ref({});
 
 const loadBracketBoard = async () => {
   try {
+    bracketData.value = [];
     if (selectedEdition.value === "Escolha uma edição") {
       return;
     }

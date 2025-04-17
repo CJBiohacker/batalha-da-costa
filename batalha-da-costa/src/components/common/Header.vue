@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink } from "vue-router";
 import { onMounted, onBeforeUnmount, ref } from "vue";
+import { images } from "@/assets/images/image-urls";
 
 const links = [
   { text: "Início", path: "/" },
@@ -26,7 +27,7 @@ onBeforeUnmount(() => {
   <header id="header-container">
     <figure v-if="!isMobile" class="header__logo">
       <img
-        src="@/assets/images/BDC-logo.svg"
+        :src="images.bdc_logo"
         alt="Logo"
         width="100"
       />

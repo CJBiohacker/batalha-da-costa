@@ -1,5 +1,12 @@
 import { firestoreDB } from "../database/config";
-import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  query,
+  orderBy,
+  limit,
+  where,
+} from "firebase/firestore";
 import { extractEditionNumber } from "../utils/helpers";
 
 const battlesCollection = collection(
@@ -41,7 +48,10 @@ export const getBattleEditions = async () => {
 export const getSelectedBattleData = async (battleInfo) => {
   try {
     const editionNumber = extractEditionNumber(battleInfo);
-    const q = query(battlesCollection);
+    const q = query(
+      battlesCollection,
+      where("num_edicao", "==", editionNumber)
+    );
     const querySnapshot = await getDocs(q);
 
     if (!querySnapshot.empty) {
@@ -59,7 +69,11 @@ export const getSelectedBattleData = async (battleInfo) => {
 
 export const getUpdatedRankingData = async () => {
   try {
-    const q = query(rankingsCollection, orderBy("data_ranking", "desc"), limit(1));
+    const q = query(
+      rankingsCollection,
+      orderBy("data_ranking", "desc"),
+      limit(1)
+    );
     const querySnapshot = await getDocs(q);
 
     if (!querySnapshot.empty) {

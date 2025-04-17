@@ -5,15 +5,7 @@ const contacts = [
   {
     link: "https://www.instagram.com/batalhadacosta_/",
     icon: ["fab", "instagram"],
-  },
-  // {
-  //   link: "https://www.instagram.com/batalhadacosta_/",
-  //   icon: ["fab", "tiktok"],
-  // },
-  // {
-  //   link: "https://www.instagram.com/batalhadacosta_/",
-  //   icon: ["fab", "facebook"],
-  // },
+  }
 ];
 
 const footerText1 = `© ${new Date().getFullYear()} - Desenvolvido por `;

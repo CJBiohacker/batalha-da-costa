@@ -100,14 +100,14 @@ const getBracketWidth = (roundIndex) => (roundIndex === 3 ? 250 : 200);
         >
           <Bracket
             :mc_name="match.mc_A"
-            :mc_points="match.placar ? match.placar.split('-')[0] : ''"
+            :mc_points="match.vencedor === match.mc_A ? match.placar.split('-')[0] : match.placar.split('-')[1]"
             :bracketColor="match.vencedor === match.mc_A ? 'success' : ''"
             :bracketHeight="getBracketHeight(roundIndex)"
             :bracketWidth="getBracketWidth(roundIndex)"
           />
           <Bracket
             :mc_name="match.mc_B"
-            :mc_points="match.placar ? match.placar.split('-')[1] : ''"
+            :mc_points="match.vencedor === match.mc_B ? match.placar.split('-')[0] : match.placar.split('-')[1]"
             :bracketColor="match.vencedor === match.mc_B ? 'success' : ''"
             :bracketHeight="getBracketHeight(roundIndex)"
             :bracketWidth="getBracketWidth(roundIndex)"
