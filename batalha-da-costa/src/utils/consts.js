@@ -143,55 +143,67 @@ export const mockCarouselImages = [
 
 export const aboutContent = {
   welcomeImage: images.bdc_logo,
-  welcomealt: "Rap Battle Event",
-  welcomeDescription: `Welcome to the electrifying world of [Your Rap Battle Event Name]!
-  Prepare for intense lyrical showdowns, showcasing the raw talent and
-  creative wordplay of MCs from all walks of life. Our event is more
-  than just a competition; it's a vibrant celebration of hip-hop culture,
-  community, and the power of spoken word. Join us as we witness history
-  in the making, one rhyme at a time.`,
-  complementaryDescription: `[Expand on the history, mission, or values of your Rap Battle event here.
-  You might want to include information about past events, the organizers'
-  vision, or how the event contributes to the local community. Highlight
-  what makes your Rap Battle unique and engaging for both participants
-  and spectators.]`,
+  welcomeDescription: `Seja bem-vindo à Batalha da Costa, um evento de rap que celebra a cultura, a arte do freestyle e o movimento do Hip Hop. Mestres de Cerimônias se reúnem aqui para mostrar suas habilidades, competir e se divertir. A Batalha da Costa é mais do que apenas uma competição; é uma comunidade vibrante onde a criatividade e a expressão são celebradas. A Batalha da Costa é um evento gratuito e aberto ao público, promovendo a inclusão e a diversidade na cultura do rap. Se você é um(a) MC, um(a) apreciador(a) da arte do freestyle ou da cultura Hip Hop, a Batalha da Costa é o lugar certo para você. Então o que está esperando para se juntar a nós e fazer parte dessa experiência única !? `,
   selectableItems: [
     {
-      value: "rap-battle",
+      value: "default",
       label: "Selecione uma opção para saber mais",
       defaultDescription: "",
     },
     {
       value: "locations",
-      label: "Our Locations",
+      label: "Localização",
       iframeSrc:
         "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1299.704625985362!2d-43.77763776409856!3d-22.872043054446646!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1spt-PT!2sbr!4v1744397716347!5m2!1spt-PT!2sbr",
-      description: `Explore the diverse and exciting venues that host our Rap Battles.
-      From intimate local spots to larger event spaces, each location brings
-      its own unique atmosphere to the competition. [Provide details about
-      the types of locations you use, their significance, or any interesting
-      facts.]`,
+      description: `As edições da Batalha da Costa ocorrem no município de Itaguaí, no Calçadão localizado no centro do município. Costumam começar por volta das 19h e se estendem até às 23h. O calçadão é um espaço público, aberto e acessível a todos, onde os/as MC's se reúnem para batalhar e mostrar suas habilidades. A organização se concentra lá, junto dos/das MCs, aguardando a chegada da plateia e preparando a estrutura para iniciar o evento. Além do calçadão, a Batalha também pode ocorrer em outros pontos de referência, como a Praça Vicente Cicarino (em frente à agência do Banco do Brasil) e a Casa de Cultura (na entrada do Parque Municipal de Itaguaí).`,
     },
     {
-      value: "mcs",
-      label: "Featured MCs",
-      image: images.bdc_logo,
-      alt: "Featured MC",
-      description: `Meet some of the incredibly talented MCs who have graced our stage.
-    These lyrical warriors bring their unique styles, stories, and flows
-    to the battle, captivating audiences with their skill and passion.
-    [You could potentially link to individual MC profiles or provide brief
-    biographies here.]`,
+      value: "mcs_home",
+      label: "MC's da Batalha da Costa",
+      image: images.mcs_image,
+      alt: "MC's da Batalha da Costa",
+      description: `Aqui vamos explorar o perfil dos atuais MC's da Batalha da Costa, ou como 'carinhosamente' gostamos de chamar os MC's da casa. Eles são os agentes culturais que representam a batalha, trazendo suas rimas e estilos únicos para o palco. Cada MC tem uma história, uma jornada e um talento que merece ser celebrado. Selecione um MC para saber mais sobre ele, suas batalhas e o impacto que ele tem na cena do rap local.`,
+      mcs: [
+        {
+          name: "MC AZAM",
+          image: images.bdc_logo,
+          description: `MC AZAM é um dos MC's mais respeitados da Batalha da Costa. Com seu estilo único e rimas afiadas, ele conquistou o coração do público e se destacou nas batalhas. Sua trajetória é marcada por vitórias e uma paixão inabalável pela cultura do rap.`,
+        },
+        {
+          name: "MC IVAN",
+          image: images.bdc_logo,
+          description: `MC IVAN é conhecido por sua habilidade em improvisação e suas letras impactantes. Ele é um verdadeiro artista que traz emoção e autenticidade para cada batalha.`,
+        },
+        // Aguardando mais informações sobre os MC's
+      ]
     },
     {
       value: "organizers",
-      label: "The Organizers",
-      image: images.bdc_logo,
-      alt: "Organizer",
-      description: `Behind every successful Rap Battle is a dedicated team of organizers
-    who work tirelessly to bring this event to life. Learn more about the
-    passionate individuals who curate the battles, manage the logistics,
-    and foster the vibrant community surrounding [Your Rap Battle Event Name].`,
+      label: "Organização",
+      image: images.organization_image,
+      alt: "Organização",
+      description: `Por trás de cada batalha de rap de sucesso, há uma equipe dedicada de
+    organizadores que trabalham incansavelmente para trazer esse evento à vida.
+    Conheça os indivíduos apaixonados que curam as batalhas, gerenciam a
+    logística e promovem a vibrante comunidade em torno da Batalha da Costa.`,
+      organizers: [
+        {
+          name: "Ana Luiza",
+          image: images.bdc_logo,
+          description: `Ana Luiza, é uma das organizadoras da Batalha da Costa.`,
+        },
+        {
+          name: "Maria 'Rosinha' Rosa",
+          image: images.bdc_logo,
+          description: `Rosinha assim como Ana Luiza, faz parte da organização da Batalha da Costa.`,
+        },
+        {
+          name: "Gabriel 'GBZ' Martins",
+          image: images.bdc_logo,
+          description: `Guilherme, também conhecido como Gui, é um dos organizadores da Batalha da Costa.`,
+        },
+        // Aguardando mais informações sobre os organizadores
+      ],
     },
   ],
 }

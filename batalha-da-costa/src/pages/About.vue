@@ -1,9 +1,10 @@
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount, watch } from "vue";
 import { aboutContent } from "@/utils/consts.js";
 
 const aboutData = ref(aboutContent);
-const selectedItem = ref("rap-battle");
+const selectedItem = ref("default");
+const selectedSubItem = ref(null); // New v-model for the second select
 const isMobile = ref(false);
 
 const selectedItemData = computed(() => {
@@ -12,18 +13,36 @@ const selectedItemData = computed(() => {
   );
 });
 
-onMounted(() => {
-  const handleResize = () => {
-    isMobile.value = window.innerWidth <= 767;
-  };
+const selectedSubItemData = computed(() => {
+  if (selectedItem.value === 'mcs_home' && selectedSubItem.value) {
+    return selectedItemData.value?.mcs?.find(mc => mc.name === selectedSubItem.value);
+  } else if (selectedItem.value === 'organizers' && selectedSubItem.value) {
+    return selectedItemData.value?.organizers?.find(organizer => organizer.name === selectedSubItem.value);
+  }
+  return null;
+});
 
+// Watcher to reset selectedSubItem when selectedItem changes
+watch(selectedItem, () => {
+  selectedSubItem.value = null;
+});
+
+const isSubSelectDisabled = computed(() => {
+  return selectedItem.value !== 'mcs_home' && selectedItem.value !== 'organizers';
+});
+
+const handleResize = () => {
+    isMobile.value = window.innerWidth <= 767;
+};
+
+onMounted(() => {
   handleResize(); // Initial check
   window.addEventListener("resize", handleResize);
+});
 
-  onBeforeUnmount(() => {
+onBeforeUnmount(() => {
     window.removeEventListener("resize", handleResize);
   });
-});
 </script>
 
 <template>
@@ -52,8 +71,8 @@ onMounted(() => {
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-12">
+    <div class="row selectors-row">
+      <div class="col-12 col-md-6">
         <v-select
           v-model="selectedItem"
           :items="aboutData.selectableItems"
@@ -65,6 +84,19 @@ onMounted(() => {
           bg-color="white"
           base-color="white"
         ></v-select>
+      </div>
+      <div class="col-12 col-md-6"> <v-select
+          v-model="selectedSubItem"
+          :items="selectedItemData?.mcs || selectedItemData?.organizers || []"
+          item-title="name"
+          item-value="name"
+          class="sub-item-selector"
+          :menu-props="{ offsetY: true }"
+          variant="outlined"
+          bg-color="white"
+          base-color="white"
+          :label="selectedItem === 'mcs_home' ? 'Selecione um MC' : 'Selecione um Organizador'"
+          :disabled="isSubSelectDisabled" ></v-select>
       </div>
     </div>
 
@@ -116,6 +148,29 @@ onMounted(() => {
                 (item) => item.value === selectedItem
               )?.defaultDescription || ""
             }}
+          </p>
+        </div>
+      </div>
+
+      <div v-else-if="(selectedItem === 'mcs_home' || selectedItem === 'organizers') && selectedSubItemData" class="row item-details">
+        <div class="col-4">
+          <img
+            v-if="selectedSubItemData.image"
+            :src="selectedSubItemData.image"
+            :alt="selectedSubItemData.name"
+            class="item-image"
+          />
+          <div v-else class="item-placeholder">
+            No media available for {{ selectedSubItemData.name }}.
+          </div>
+        </div>
+        <div class="col-8">
+          <h3 class="text-center" v-if="selectedSubItemData.name">{{ selectedSubItemData.name }}</h3>
+          <p v-if="selectedSubItemData.description" class="item-description">
+            {{ selectedSubItemData.description }}
+          </p>
+          <p v-else class="item-description">
+            Nenhuma descrição disponível para {{ selectedSubItemData.name }}.
           </p>
         </div>
       </div>
@@ -196,11 +251,28 @@ onMounted(() => {
     // Add specific styles for complementary description if needed
   }
 
-  .item-selector {
+  .item-selector, /* Style for the first selector */
+  .sub-item-selector { /* Style for the second selector */
     width: 250px;
     margin-bottom: 15px;
+  }
 
-    // You can further style the v-select here if needed
+  .selectors-row { /* New style for the row containing the selectors */
+    display: flex;
+    flex-direction: column; /* Default to column for mobile */
+
+    @media (min-width: 768px) { /* Tablet and Desktop */
+      flex-direction: row;
+      align-items: flex-start; /* Align items to the start in the row */
+
+      & > div {
+        margin-right: 15px; /* Add some spacing between selectors */
+
+        &:last-child {
+          margin-right: 0; /* Remove margin from the last selector */
+        }
+      }
+    }
   }
 
   .item-details {
@@ -291,7 +363,8 @@ onMounted(() => {
       }
     }
 
-    .item-selector {
+    .item-selector,
+    .sub-item-selector { /* Style for the new selector in mobile */
       font-size: 1.1rem;
       width: 75dvw;
     }
@@ -323,6 +396,16 @@ onMounted(() => {
           padding: 0;
         }
       }
+    }
+
+    .item-selector,
+    .sub-item-selector { /* Style for the new selector in tablet */
+      width: auto; /* Adjust width for row layout */
+      flex: 1; /* Distribute available space */
+    }
+
+    .selectors-row { /* Style for the row containing the selectors in tablet */
+      align-items: center; /* Align vertically in the row */
     }
   }
 }
