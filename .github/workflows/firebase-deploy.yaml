@@ -9,9 +9,8 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  deploy_live_website:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -41,11 +40,11 @@ jobs:
           echo "VITE_FIREBASE_UNIVERSE_DOMAIN=${{ secrets.VITE_FIREBASE_UNIVERSE_DOMAIN }}" >> .env
 
       - name: Build Vue app
-        run: npm run build
+        run: npm ci && npm run build
 
       - name: Deploy to Firebase Hosting
-        uses: FirebaseExtended/action-hosting-deploy@v0.9.0
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          args: deploy --only hosting
           token: ${{ secrets.FIREBASE_DEPLOY_TOKEN }}
           projectId: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+          channelId: live
