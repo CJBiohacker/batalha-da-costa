@@ -26,19 +26,19 @@ jobs:
       
       - name: Set environment variables
         run: |
-          echo "VITE_FIREBASE_COLLECTION_1 : ${{ secrets.VITE_FIREBASE_COLLECTION_1 }}" >> .env
-          echo "VITE_FIREBASE_COLLECTION_2 : ${{ secrets.VITE_FIREBASE_COLLECTION_2 }}" >> .env
-          echo "VITE_FIREBASE_TYPE : ${{ secrets.VITE_FIREBASE_TYPE }}" >> .env
-          echo "VITE_FIREBASE_PROJECT_ID : ${{ secrets.VITE_FIREBASE_PROJECT_ID }}" >> .env
-          echo "VITE_FIREBASE_PRIVATE_KEY_ID : ${{ secrets.VITE_FIREBASE_PRIVATE_KEY_ID }}" >> .env
-          echo "VITE_FIREBASE_PRIVATE_KEY : ${{ secrets.VITE_FIREBASE_PRIVATE_KEY }}" >> .env
-          echo "VITE_FIREBASE_CLIENT_EMAIL : ${{ secrets.VITE_FIREBASE_CLIENT_EMAIL }}" >> .env
-          echo "VITE_FIREBASE_CLIENT_ID : ${{ secrets.VITE_FIREBASE_CLIENT_ID }}" >> .env
-          echo "VITE_FIREBASE_AUTH_URI : ${{ secrets.VITE_FIREBASE_AUTH_URI }}" >> .env
-          echo "VITE_FIREBASE_TOKEN_URI : ${{ secrets.VITE_FIREBASE_TOKEN_URI }}" >> .env
-          echo "VITE_FIREBASE_AUTH_PROVIDER_X509_CERT_URL : ${{ secrets.VITE_FIREBASE_AUTH_PROVIDER_X509_CERT_URL }}" >> .env
-          echo "VITE_FIREBASE_CLIENT_X509_CERT_URL : ${{ secrets.VITE_FIREBASE_CLIENT_X509_CERT_URL }}" >> .env
-          echo "VITE_FIREBASE_UNIVERSE_DOMAIN : ${{ secrets.VITE_FIREBASE_UNIVERSE_DOMAIN }}" >> .env
+          echo "VITE_FIREBASE_COLLECTION_1=${{ secrets.VITE_FIREBASE_COLLECTION_1 }}" >> .env
+          echo "VITE_FIREBASE_COLLECTION_2=${{ secrets.VITE_FIREBASE_COLLECTION_2 }}" >> .env
+          echo "VITE_FIREBASE_TYPE=${{ secrets.VITE_FIREBASE_TYPE }}" >> .env
+          echo "VITE_FIREBASE_PROJECT_ID=${{ secrets.VITE_FIREBASE_PROJECT_ID }}" >> .env
+          echo "VITE_FIREBASE_PRIVATE_KEY_ID=${{ secrets.VITE_FIREBASE_PRIVATE_KEY_ID }}" >> .env
+          echo "VITE_FIREBASE_PRIVATE_KEY=${{ secrets.VITE_FIREBASE_PRIVATE_KEY }}" >> .env
+          echo "VITE_FIREBASE_CLIENT_EMAIL=${{ secrets.VITE_FIREBASE_CLIENT_EMAIL }}" >> .env
+          echo "VITE_FIREBASE_CLIENT_ID=${{ secrets.VITE_FIREBASE_CLIENT_ID }}" >> .env
+          echo "VITE_FIREBASE_AUTH_URI=${{ secrets.VITE_FIREBASE_AUTH_URI }}" >> .env
+          echo "VITE_FIREBASE_TOKEN_URI=${{ secrets.VITE_FIREBASE_TOKEN_URI }}" >> .env
+          echo "VITE_FIREBASE_AUTH_PROVIDER_X509_CERT_URL=${{ secrets.VITE_FIREBASE_AUTH_PROVIDER_X509_CERT_URL }}" >> .env
+          echo "VITE_FIREBASE_CLIENT_X509_CERT_URL=${{ secrets.VITE_FIREBASE_CLIENT_X509_CERT_URL }}" >> .env
+          echo "VITE_FIREBASE_UNIVERSE_DOMAIN=${{ secrets.VITE_FIREBASE_UNIVERSE_DOMAIN }}" >> .env
 
       - name: Build Vue app
         run: npm run build
