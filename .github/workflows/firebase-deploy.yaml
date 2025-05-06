@@ -49,9 +49,7 @@ jobs:
       - name: Navigate to subdirectory
         run: cd ./batalha-da-costa
 
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_BATALHA_DA_COSTA }}"
-          projectId: batalha-da-costa
-          channelId: live
+      - name: Deploy to Firebase Hosting
+        run: |
+          cd ./batalha-da-costa
+          firebase deploy --only hosting --token "${{ secrets.FIREBASE_TOKEN }}"
