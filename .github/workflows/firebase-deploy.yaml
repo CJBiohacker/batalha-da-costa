@@ -52,6 +52,9 @@ jobs:
         run: npm ci && npm run build
         working-directory: ./batalha-da-costa
 
+      - name: Debug Directory
+        run: ls -lah ./batalha-da-costa
+
       - name: Debug Secrets
         run: echo ${{ secrets.FIREBASE_DEPLOY_TOKEN }} | wc -c
 
