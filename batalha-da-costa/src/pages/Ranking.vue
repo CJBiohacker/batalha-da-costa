@@ -36,7 +36,7 @@ getRankingData();
     <RankingBoard :participantes="rankingData.participantes" />
 
     <div class="ranking__update-msg">
-      <p>Última atualização : {{ lastUpdate }}</p>
+      <p>Última atualização : {{ lastUpdate }} CI/CD</p>
     </div>
   </section>
 </template>
