@@ -52,3 +52,4 @@ jobs:
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_BATALHA_DA_COSTA }}"
           projectId: batalha-da-costa
           channelId: live
+          working-directory: ./batalha-da-costa
