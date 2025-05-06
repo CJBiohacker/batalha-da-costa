@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   deploy_live_website:
@@ -24,9 +21,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
-
-      - name: Install Firebase CLI
-        run: npm install -g firebase-tools@latest
 
       - name: Install dependencies
         run: npm install
@@ -52,12 +46,9 @@ jobs:
         run: npm ci && npm run build
         working-directory: ./batalha-da-costa
 
-      - name: Debug Directory
-        run: ls -lah ./batalha-da-costa
-
-      - name: Debug Secrets
-        run: echo ${{ secrets.FIREBASE_DEPLOY_TOKEN }} | wc -c
-
-      - name: Deploy to Firebase Hosting
-        run: |
-          npx firebase-tools deploy --only hosting --project ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_BATALHA_DA_COSTA }}"
+          projectId: batalha-da-costa
+          channelId: live
