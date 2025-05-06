@@ -46,10 +46,12 @@ jobs:
         run: npm ci && npm run build
         working-directory: ./batalha-da-costa
 
+      - name: Navigate to subdirectory
+        run: cd ./batalha-da-costa
+
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_BATALHA_DA_COSTA }}"
           projectId: batalha-da-costa
           channelId: live
-          working-directory: ./batalha-da-costa
