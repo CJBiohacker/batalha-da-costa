@@ -17,11 +17,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: List current directory
-        run: ls -al
+      - name: Navigate to repository root
+        run: cd /home/runner/work/CJBiohacker/SEU_REPOSITORIO/
 
-      - name: Check package.json permissions
-        run: ls -l package.json || true
+      # - name: List current directory
+      #   run: ls -al
+
+      # - name: Check package.json permissions
+      #   run: ls -l package.json || true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
