@@ -1,0 +1,63 @@
+name: Build and Deploy Vue App to Firebase Hosting
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    env: # Define variáveis de ambiente que estarão disponíveis para todos os steps
+      # Mapeia os GitHub Secrets para variáveis de ambiente no runner.
+      # O processo de build do Vite (npm run build) irá capturar estas variáveis.
+      VITE_FIREBASE_COLLECTION_1 : ${{ secrets.VITE_FIREBASE_COLLECTION_1 }}
+      VITE_FIREBASE_COLLECTION_2 : ${{ secrets.VITE_FIREBASE_COLLECTION_2 }}
+      VITE_FIREBASE_TYPE : ${{ secrets.VITE_FIREBASE_TYPE }}
+      VITE_FIREBASE_PROJECT_ID : ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+      VITE_FIREBASE_PRIVATE_KEY_ID : ${{ secrets.VITE_FIREBASE_PRIVATE_KEY_ID }}
+      VITE_FIREBASE_PRIVATE_KEY : ${{ secrets.VITE_FIREBASE_PRIVATE_KEY }}
+      VITE_FIREBASE_CLIENT_EMAIL : ${{ secrets.VITE_FIREBASE_CLIENT_EMAIL }}
+      VITE_FIREBASE_CLIENT_ID : ${{ secrets.VITE_FIREBASE_CLIENT_ID }}
+      VITE_FIREBASE_AUTH_URI : ${{ secrets.VITE_FIREBASE_AUTH_URI }}
+      VITE_FIREBASE_TOKEN_URI : ${{ secrets.VITE_FIREBASE_TOKEN_URI }}
+      VITE_FIREBASE_AUTH_PROVIDER_X509_CERT_URL : ${{ secrets.VITE_FIREBASE_AUTH_PROVIDER_X509_CERT_URL }}
+      VITE_FIREBASE_CLIENT_X509_CERT_URL : ${{ secrets.VITE_FIREBASE_CLIENT_X509_CERT_URL }}
+      VITE_FIREBASE_UNIVERSE_DOMAIN : ${{ secrets.VITE_FIREBASE_UNIVERSE_DOMAIN }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4 # Ação para baixar o código do seu repositório
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4 # Ação para configurar o ambiente Node.js
+        with:
+          node-version: '20' # Especifique a versão do Node.js que seu projeto utiliza (ex: 18, 20, etc.)
+          cache: 'npm' # Habilita o cache de pacotes npm para agilizar futuras execuções
+
+      - name: Install Dependencies
+        run: npm install # Comando para instalar as dependências do projeto
+
+      # O passo de criar um .env é opcional se você usar a diretiva `env` no nível do job,
+      # pois o Vite pode acessar as variáveis de ambiente diretamente do processo.
+      # Descomente as linhas abaixo se você tiver alguma ferramenta específica que necessite de um arquivo .env físico.
+      # - name: Create .env file from Secrets
+      #   run: |
+      #     echo "VITE_API_KEY=${{ secrets.VITE_API_KEY }}" > .env
+      #     echo "VITE_ANOTHER_SECRET_VAR=${{ secrets.VITE_ANOTHER_SECRET_VAR }}" >> .env
+      #     # Adicione outras variáveis aqui
+      #     echo "Arquivo .env criado para o build."
+
+      - name: Build Vue/Vite Project
+        run: npm run build # Comando para compilar seu projeto Vite, gerando a pasta 'dist'
+
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0 # Ação oficial do Firebase para deploy
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}' # Token padrão do GitHub, necessário para a action
+          firebaseServiceAccount: ''
+          channelId: live # Faz o deploy para o canal 'live' (produção)
+          projectId: 'batalha-da-costa' # Substitua pelo ID do seu projeto Firebase (encontrado no console do Firebase ou .firebaserc)
+        env:
+          FIREBASE_SERVICE_ACCOUNT_BATALHA_DA_COSTA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BATALHA_DA_COSTA }} # Utiliza o token de CI do Firebase configurado nos secrets
