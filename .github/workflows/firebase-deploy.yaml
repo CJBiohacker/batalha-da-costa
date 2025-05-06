@@ -25,6 +25,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: ./
       
       - name: Set environment variables
         run: |
@@ -44,6 +45,7 @@ jobs:
 
       - name: Build Vue app
         run: npm ci && npm run build
+        working-directory: ./
 
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0.9.0
