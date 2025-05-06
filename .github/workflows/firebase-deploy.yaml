@@ -57,3 +57,4 @@ jobs:
           firebaseServiceAccount: $${{ secrets.FIREBASE_SERVICE_ACCOUNT_DEPLOY }}
           channelId: live
           entryPoint: ./batalha-da-costa
+          debug: true
