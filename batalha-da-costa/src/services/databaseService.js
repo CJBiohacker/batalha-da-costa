@@ -19,11 +19,10 @@ const rankingsCollection = collection(
 );
 
 
-
+console.log(import.meta.env.VITE_FIREBASE_COLLECTION_2);
 
 export const getBattleEditions = async () => {
   try {
-    console.log(import.meta.env.VITE_FIREBASE_COLLECTION_1);
     const querySnapshot = await getDocs(battlesCollection);
     const edições = [];
 
@@ -73,7 +72,6 @@ export const getSelectedBattleData = async (battleInfo) => {
 
 export const getUpdatedRankingData = async () => {
   try {
-    console.log(import.meta.env.VITE_FIREBASE_COLLECTION_2);
     const q = query(
       rankingsCollection,
       orderBy("data_ranking", "desc"),
