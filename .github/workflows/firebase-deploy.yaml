@@ -43,6 +43,18 @@ jobs:
           echo "VITE_FIREBASE_UNIVERSE_DOMAIN=${{ secrets.VITE_FIREBASE_UNIVERSE_DOMAIN }}" >> .env
         working-directory: ./batalha-da-costa
 
+      - name: List directory and .env content
+        run: |
+          ls -al ./batalha-da-costa
+          cat ./batalha-da-costa/.env || true
+        working-directory: ./
+
+      - name: Debug environment variables during build
+        run: |
+          cd ./batalha-da-costa
+          env | grep VITE_
+        working-directory: ./
+
       - name: Build Vue app
         run: npm ci && npm run build
         working-directory: ./batalha-da-costa
