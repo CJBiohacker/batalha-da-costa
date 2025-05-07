@@ -49,12 +49,6 @@ jobs:
           cat ./batalha-da-costa/.env || true
         working-directory: ./
 
-      - name: Debug environment variables during build
-        run: |
-          cd ./batalha-da-costa
-          env | grep VITE_
-        working-directory: ./
-
       - name: Build Vue app
         run: npm ci && npm run build
         working-directory: ./batalha-da-costa
