@@ -81,7 +81,7 @@ const visibleRounds = computed(() => {
 const getMcPoints = (match, mc) => {
   const [pointsA, pointsB] = match.placar.split("-");
   return match.vencedor === mc ? pointsA : pointsB;
-});
+};
 
 const getRoundMatches = (key) => {
   return roundMatches[key]?.(bracketDataComputed.value) || [];
