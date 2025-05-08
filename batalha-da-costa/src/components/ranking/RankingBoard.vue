@@ -1,42 +1,37 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount, computed } from "vue";
+import { computed } from "vue";
+import { useResponsive } from "@/composables/useResponsive";
+
+const { isMobile } = useResponsive();
 
 const props = defineProps({
   participantes: {
     type: Array,
     required: true,
-    default: () => [],
   },
 });
 
-const isMobile = ref(false);
+const sortedParticipants = computed(() => {
+  return [...props.participantes].sort(
+    (a, b) => b.pontos - a.pontos || b.wins_2x0 - a.wins_2x0
+  );
+});
 
-const checkScreenSize = () => {
-  isMobile.value = window.innerWidth < 768;
+const getFormatedName = computed(() => {
+  return (name) => name.replace(/ /g, "_");
+});
+
+const rankingLabels = {
+  position: "Posicao",
+  name: "Nome",
+  points: "Pontos",
+  wins: "2x0",
 };
-
-const participantesOrdenados = computed(() => {
-  return [...props.participantes].sort((a, b) => {
-    if (b.pontos !== a.pontos) {
-      return b.pontos - a.pontos;
-    }
-    return b.vitoria_2x0 - a.vitoria_2x0;
-  });
-});
-
-onMounted(() => {
-  checkScreenSize();
-  window.addEventListener("resize", checkScreenSize);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener("resize", checkScreenSize);
-});
 </script>
 
 <template>
   <div class="ranking">
-    <div v-if="!isMobile" class="ranking__table ranking__card-style">
+    <div v-if="!isMobile" class="ranking__table ranking__card-container">
       <div class="ranking__table-header">
         <p>Posicao</p>
         <p>Nome</p>
@@ -44,13 +39,15 @@ onBeforeUnmount(() => {
         <p>2x0</p>
       </div>
       <div class="ranking__table-body">
-        <div
-          v-for="(participante, index) in participantesOrdenados"
-          :key="index"
-          class="ranking__row"
-        >
+        <div v-for="(participante, index) in sortedParticipants" :key="index" class="ranking__row">
           <p class="ranking__position">{{ index + 1 }}</p>
-          <p class="ranking__name">{{ participante.nome.replace(/ /g, "_")}}</p>
+          <p class="ranking__name">
+            {{
+              getFormatedName(participante.nome)
+            }}
+          </p>
+
+
           <p class="ranking__points">{{ participante.pontos }}</p>
           <p class="ranking__wins">{{ participante.vitoria_2x0 }}</p>
         </div>
@@ -58,14 +55,15 @@ onBeforeUnmount(() => {
     </div>
     <div v-else class="ranking__cards">
       <div
-        v-for="(participante, index) in participantesOrdenados"
-        :key="'mobile-' + index"
-        class="ranking__card"
+        v-for="(participante, index) in sortedParticipants" :key="'mobile-' + index" class="ranking__card ranking__card-container"
       >
         <div class="ranking__card-header">
           <span class="ranking__card-position">{{ index + 1 }}</span>
-          <h3 class="ranking__card-name">{{ participante.nome.replace(/ /g, "_") }}</h3>
+          <h3 class="ranking__card-name">
+            {{ getFormatedName(participante.nome) }}
+          </h3>
         </div>
+
         <div class="ranking__card-stats">
           <div class="ranking__card-stat">
             <span>Pontos</span>
@@ -95,7 +93,7 @@ onBeforeUnmount(() => {
   font-size: 2.5rem; /* Default font size for larger screens */
 }
 
-.ranking__card-style {
+.ranking__card-container {
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -149,13 +147,6 @@ onBeforeUnmount(() => {
   gap: 15px;
   padding: 15px;
   width: 75dvw;
-}
-
-.ranking__card {
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 15px;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
