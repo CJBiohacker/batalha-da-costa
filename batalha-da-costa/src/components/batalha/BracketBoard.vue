@@ -2,6 +2,48 @@
 import { computed } from "vue";
 import Bracket from "@/components/batalha/Bracket.vue";
 
+const roundsConfig = {
+  eliminatorias: {
+    label: "Eliminatórias",
+    matches: (matches) => matches.length,
+    spacingClass: "ga-1 ma-4 ml-10",
+    matchSpacingClass: "ga-1 ma-2",
+    bracketHeight: 35,
+    bracketWidth: 200,
+  },
+  quartas_de_final: {
+    label: "Quartas",
+    matches: 4,
+    spacingClass: "ma-8 bracket-board__quarters-container",
+    matchSpacingClass: "ga-1 ma-4",
+    bracketHeight: 35,
+    bracketWidth: 200,
+  },
+  semifinais: {
+    label: "Semifinais",
+    matches: 2,
+    spacingClass: "ma-9 bracket-board__semifinals-container",
+    matchSpacingClass: "ga-1 my-8",
+    bracketHeight: 35,
+    bracketWidth: 200,
+  },
+  final: {
+    label: "Final",
+    matches: 1,
+    spacingClass: "ma-10",
+    matchSpacingClass: "ga-1 my-12",
+    bracketHeight: 70,
+    bracketWidth: 250,
+  },
+};
+
+const roundMatches = {
+  eliminatorias: (props) => props.chaves_batalha?.eliminatorias || [],
+  quartas_de_final: (props) => props.chaves_batalha?.quartas_de_final || [],
+  semifinais: (props) => props.chaves_batalha?.semifinais || [],
+  final: (props) => props.chaves_batalha?.final || [],
+};
+
 const props = defineProps({
   bracketData: {
     type: Object,
@@ -13,74 +55,45 @@ const props = defineProps({
   },
 });
 
-const eliminatoriasMatches = computed(
-  () => props.bracketData?.chaves_batalha?.eliminatorias || []
-);
-const quartasMatches = computed(
-  () => props.bracketData?.chaves_batalha?.quartas_de_final || []
-);
-const semifinaisMatches = computed(
-  () => props.bracketData?.chaves_batalha?.semifinais || []
-);
-const finalMatch = computed(
-  () => props.bracketData?.chaves_batalha?.final || []
-);
+const bracketDataComputed = computed(() => props.bracketData?.chaves_batalha || {});
 
 const visibleRounds = computed(() => {
-  const numEliminatorias = eliminatoriasMatches.value.length;
-  const rounds = [];
+  const numEliminatorias = bracketDataComputed.value?.eliminatorias?.length || 0;
 
-  rounds.push({
-    key: "eliminatorias",
-    label: "Eliminatórias",
-    matches: numEliminatorias,
+  const availableRounds = Object.keys(roundsConfig).filter((key) => {
+    if (key === "eliminatorias") return numEliminatorias > 0;
+    if (key === "quartas_de_final") return numEliminatorias === 8;
+    if (key === "semifinais") return numEliminatorias > 0;
+    if (key === "final") return numEliminatorias > 0;
+    return false;
   });
 
-  if (numEliminatorias === 8) {
-    rounds.push({ key: "quartas_de_final", label: "Quartas", matches: 4 });
-    rounds.push({ key: "semifinais", label: "Semifinais", matches: 2 });
-    rounds.push({ key: "final", label: "Final", matches: 1 });
-  } else if (numEliminatorias <= 4 && numEliminatorias > 0) {
-    rounds.push({ key: "semifinais", label: "Semifinais", matches: 2 });
-    rounds.push({ key: "final", label: "Final", matches: 1 });
-  }
+  return availableRounds.map((key) => ({
+    key,
+    label: roundsConfig[key].label,
+    matches:
+      typeof roundsConfig[key].matches === "function"
+        ? roundsConfig[key].matches(bracketDataComputed.value)
+        : roundsConfig[key].matches,
+  }));
+});
 
-  return rounds;
+const getMcPoints = (match, mc) => {
+  const [pointsA, pointsB] = match.placar.split("-");
+  return match.vencedor === mc ? pointsA : pointsB;
 });
 
 const getRoundMatches = (key) => {
-  switch (key) {
-    case "eliminatorias":
-      return eliminatoriasMatches.value;
-    case "quartas_de_final":
-      return quartasMatches.value;
-    case "semifinais":
-      return semifinaisMatches.value;
-    case "final":
-      return finalMatch.value;
-    default:
-      return [];
-  }
+  return roundMatches[key]?.(bracketDataComputed.value) || [];
 };
 
-const getRoundSpacingClass = (roundIndex) => {
-  if (roundIndex === 0) return "ga-1 ma-4 ml-10";
-  if (roundIndex === 1) return "ma-8 bracket-board__quarters-container";
-  if (roundIndex === 2) return "ma-9 bracket-board__semifinals-container";
-  if (roundIndex === 3) return "ma-10";
-  return "ga-1 ma-4";
+const getRoundSpacingClass = (roundKey) => {
+  return roundsConfig[roundKey]?.spacingClass || "ga-1 ma-4";
 };
 
-const getMatchSpacingClass = (roundIndex) => {
-  if (roundIndex === 0) return "ga-1 ma-2";
-  if (roundIndex === 1) return "ga-1 ma-4";
-  if (roundIndex === 2) return "ga-1 my-8";
-  if (roundIndex === 3) return "ga-1 my-12";
-  return "ga-1 ma-2";
-};
-
-const getBracketHeight = (roundIndex) => (roundIndex === 3 ? 70 : 35);
-const getBracketWidth = (roundIndex) => (roundIndex === 3 ? 250 : 200);
+const getMatchSpacingClass = (roundKey) => roundsConfig[roundKey]?.matchSpacingClass || "ga-1 ma-2";
+const getBracketHeight = (roundKey) => roundsConfig[roundKey]?.bracketHeight || 35;
+const getBracketWidth = (roundKey) => roundsConfig[roundKey]?.bracketWidth || 200;
 </script>
 
 <template>
@@ -88,30 +101,22 @@ const getBracketWidth = (roundIndex) => (roundIndex === 3 ? 250 : 200);
     <div class="d-flex overflow-x-auto bracket-board">
       <div
         v-for="(round, roundIndex) in visibleRounds"
-        :key="roundIndex"
-        :class="`d-flex flex-column justify-center ${getRoundSpacingClass(
-          roundIndex
-        )}`"
+        :key="round.key"
+        :class="`d-flex flex-column justify-center ${getRoundSpacingClass(round.key)}`"
       >
         <div
           v-for="(match, matchIndex) in getRoundMatches(round.key)"
           :key="matchIndex"
-          :class="`d-flex flex-column ${getMatchSpacingClass(roundIndex)}`"
+          :class="`d-flex flex-column ${getMatchSpacingClass(round.key)}`"
         >
-          <Bracket
-            :mc_name="match.mc_A"
-            :mc_points="match.vencedor === match.mc_A ? match.placar.split('-')[0] : match.placar.split('-')[1]"
-            :bracketColor="match.vencedor === match.mc_A ? 'success' : ''"
-            :bracketHeight="getBracketHeight(roundIndex)"
-            :bracketWidth="getBracketWidth(roundIndex)"
-          />
-          <Bracket
-            :mc_name="match.mc_B"
-            :mc_points="match.vencedor === match.mc_B ? match.placar.split('-')[0] : match.placar.split('-')[1]"
-            :bracketColor="match.vencedor === match.mc_B ? 'success' : ''"
-            :bracketHeight="getBracketHeight(roundIndex)"
-            :bracketWidth="getBracketWidth(roundIndex)"
-          />
+            <Bracket v-for="mc in ['mc_A', 'mc_B']"
+              :key="mc"
+              :mc_name="match[mc]"
+              :mc_points="getMcPoints(match, match[mc])"
+              :bracketColor="match.vencedor === match[mc] ? 'success' : ''"
+              :bracketHeight="getBracketHeight(round.key)"
+              :bracketWidth="getBracketWidth(round.key)"
+            />
         </div>
       </div>
     </div>
