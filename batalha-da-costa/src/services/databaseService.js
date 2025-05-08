@@ -18,9 +18,6 @@ const rankingsCollection = collection(
   import.meta.env.VITE_FIREBASE_COLLECTION_2
 );
 
-
-console.log(import.meta.env.VITE_FIREBASE_COLLECTION_2);
-
 export const getBattleEditions = async () => {
   try {
     const querySnapshot = await getDocs(battlesCollection);
